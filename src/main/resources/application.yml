@@ -1,0 +1,10 @@
+telegram :
+  base_url : 'https://api.telegram.org/bot'
+  token: '6894524715:AAFRaw3bAnhKlSYAaFSGwX9sQZU4Eydxpjo'
+  username: 'chicken_000_bot'
+  timeout: 120000
+
+server:
+  port: 8080
+
+
