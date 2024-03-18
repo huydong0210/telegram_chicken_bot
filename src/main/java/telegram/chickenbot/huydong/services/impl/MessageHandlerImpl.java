@@ -41,6 +41,9 @@ public class MessageHandlerImpl implements MessageHandler {
             List<Update> updateList = objectMapper.readValue(result, new TypeReference<List<Update>>() {
             }) ;
             List<Message> messageList = updateList.stream().map(update -> update.getMessage()).filter(message -> {
+                if (message == null){
+                    return false;
+                }
                 if (!compareDateOfChatToSystemStartTime(message.getDate().longValue(), systemStartTime)){
                     return false;
                 }
