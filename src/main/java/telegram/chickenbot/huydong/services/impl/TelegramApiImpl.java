@@ -10,7 +10,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-import org.telegram.telegrambots.meta.api.objects.Update;
+import org.springframework.web.util.UriComponentsBuilder;
 import telegram.chickenbot.huydong.services.TelegramApi;
 
 import java.util.HashMap;
@@ -30,35 +30,29 @@ public class TelegramApiImpl implements TelegramApi {
         this.restTemplate = restTemplate;
         this.objectMapper = objectMapper;
     }
+
     @Override
     public JSONObject callAPI(String endPoints, HashMap<String, String> params) {
         try {
-            ResponseEntity <String> response = this.restTemplate.exchange(
-                    generateEndpoints(endPoints,params),
-                    HttpMethod.GET,
-                    null,
-                    String.class
-            );
+
+            ResponseEntity<String> response = this.restTemplate.getForEntity(generateEndpoints(endPoints, params).build().toUri(), String.class);
             return new JSONObject(response.getBody().toString());
-        } catch (Exception e){
+        } catch (Exception e) {
             log.error("rest endpoints" + endPoints + " error");
             log.error(e.getMessage());
         }
         return null;
     }
 
-    private String generateEndpoints(String endPoints, HashMap<String, String> params) {
-        StringBuilder result = new StringBuilder();
-        result.append(baseURL).append(token).append(endPoints);
-        if (params!= null){
-            result.append("?");
+    private UriComponentsBuilder generateEndpoints(String endPoints, HashMap<String, String> params) {
+        StringBuilder url = new StringBuilder();
+        url.append(baseURL).append(token).append(endPoints);
+        UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(url.toString());
+        if (params !=null){
             params.keySet().stream().forEach(key -> {
-                result.append(key).append("=").append(params.get(key)).append("&");
+                builder.queryParam(key, params.get(key));
             });
-            result.deleteCharAt(result.length() - 1);
         }
-
-
-        return result.toString();
+        return builder;
     }
 }

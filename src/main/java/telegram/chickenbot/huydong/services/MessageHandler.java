@@ -7,6 +7,5 @@ import java.util.HashMap;
 
 public interface MessageHandler {
     void handleIncomingMessage(JSONObject jsonObject);
-    void replyMessage(Long chatId, String text, HashMap<String, String> optional);
-    void replyMessage(Long chatId, String text);
+    void handleMessage(Message message);
 }
