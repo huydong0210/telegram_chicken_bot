@@ -4,6 +4,7 @@ telegram :
   username: 'chicken_000_bot'
   timeout: 280000
   search_engine_uri: 't.me/chicken_000_bot/chick_search_engine'
+  games_uri : https://t.me/chicken_000_bot/chicken_evoworld, https://t.me/chicken_000_bot/chicken_snake_i
 
 server:
   port: 8080
